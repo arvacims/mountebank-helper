@@ -1,6 +1,3 @@
-// TODO: Seperate this file (as it grows) into seperate test files based on their functionaility
-
-
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const chaiSubset = require('chai-subset');
@@ -10,13 +7,8 @@ chai.use(chaiAsPromised);
 chai.use(chaiSubset);
 const expect = chai.expect;
 
-
 // import the mountebank helper library
-const mbHelper = require('../src/index');
-const Imposter = mbHelper.Imposter;
-
-// TODO: Also check for object properties on final response body
-
+const Imposter = require('../src/imposter');
 
 describe('Input Validation', function () {
   describe('Imposter Constructor', function () {
@@ -64,7 +56,7 @@ describe('Input Validation', function () {
       });
 
       it('Should set the mountebankHost to the value supplied in the MOUNTEBANK_HOST environment variable', function () {
-        process.env.MOUNTEBANK_HOST = 'env-host.info'
+        process.env.MOUNTEBANK_HOST = 'env-host.info';
         expect(new Imposter({
           'imposterPort': 3000
         }).ImposterInformation.mountebankHost).to.equal('env-host.info');

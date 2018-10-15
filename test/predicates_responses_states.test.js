@@ -8,10 +8,8 @@ chai.use(chaiAsPromised);
 chai.use(chaiSubset);
 const expect = chai.expect;
 
-
 // import the mountebank helper library
-const mbHelper = require('../src/index');
-const Imposter = mbHelper.Imposter;
+const Imposter = require('../src/imposter');
 
 const testStubs = require('./testStubs');
 
@@ -67,7 +65,7 @@ describe('Route Information and MB Post Request Body', function () {
         responseBody: '{"/areas":"POST"}'
       },
       predicates: []
-    }
+    };
 
     const PUT = {
       name: 'PUT',
@@ -79,7 +77,7 @@ describe('Route Information and MB Post Request Body', function () {
         responseBody: '{"/areas":"PUT"}'
       },
       predicates: []
-    }
+    };
     const DELETE = {
       name: 'DELETE',
       response: {
@@ -90,13 +88,13 @@ describe('Route Information and MB Post Request Body', function () {
         responseBody: '{"/areas":"DELETE"}'
       },
       predicates: []
-    }
+    };
 
-    const response = someImposter.getStateResponse()
-    const areas = response['/areas']
-    areas.GET.should.deep.equal(GET)
-    areas.POST.should.deep.equal(POST)
-    areas.PUT.should.deep.equal(PUT)
+    const response = someImposter.getStateResponse();
+    const areas = response['/areas'];
+    areas.GET.should.deep.equal(GET);
+    areas.POST.should.deep.equal(POST);
+    areas.PUT.should.deep.equal(PUT);
     areas.DELETE.should.deep.equal(DELETE)
 
     // response.should.deep.equal({
@@ -110,9 +108,9 @@ describe('Route Information and MB Post Request Body', function () {
   });
 
   it('Mountebank Response Body should be correctly formatted after several addRoute calls', function () {
-    const response = someImposter.getMountebankResponse()
-    const stubs = response.stubs
-    const stub = stubs[0]
+    const response = someImposter.getMountebankResponse();
+    const stubs = response.stubs;
+    const stub = stubs[0];
 
     const expectedStubs = [{
         predicates: [{
@@ -182,7 +180,7 @@ describe('Route Information and MB Post Request Body', function () {
           }
         }]
       }
-    ]
+    ];
 
     response.should.deep.equal({
       port: 3000,
