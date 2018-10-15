@@ -1,18 +1,7 @@
 <h1> MountebankHelper </h1>
 
-
-[![Build Status](https://travis-ci.org/Tzinov15/mountebank-helper.svg?branch=master)](https://travis-ci.org/Tzinov15/mountebank-helper)
-[![Coverage Status](https://coveralls.io/repos/github/Tzinov15/mountebank-helper/badge.svg?branch=master&bust=1)](https://coveralls.io/github/Tzinov15/mountebank-helper?branch=master)
-
-
-
 A simple Javascript wrapper to easily interface with <a href = 'http://www.mbtest.org/'>Mountebank</a> and not have to deal with its
-abstract object structure requirements. See **[SwaggerBank](https://tzinov15.github.io/swagger-bank/)** for easy intergration with Swagger Specs/YAML files <br><br>
-
-While not providing an API for the full feature list that mountebank has, MountebankHelper provides enough functionality so that it reflects the core purpose of Mountebank and is easy to use at the same time. <br>
-
-In the future this library will probably become a full-fledged Javascript wrapper around several of Mountebanks powerful CLI commands
-
+abstract object structure requirements.
 
 <h1> Usage </h1>
 
@@ -20,10 +9,10 @@ In the future this library will probably become a full-fledged Javascript wrappe
 ```javascript
 
 // import the mountebank helper library
-const mbHelper = require('mountebank-helper');
+const Imposter = require('mountebank-helper');
 
 // create the skeleton for the imposter (does not post to MB)
-const firstImposter = new mbHelper.Imposter({ 'imposterPort' : 3000 });
+const firstImposter = new Imposter({ 'imposterPort' : 3000 });
 
 // construct sample responses and conditions on which to send it
 const sample_response = {
@@ -51,26 +40,17 @@ const another_response = {
 firstImposter.addRoute(sample_response);
 firstImposter.addRoute(another_response);
 
-// start the MB server  and post our Imposter to listen!
-mbHelper.startMbServer(2525)
-.then(function() {
-  firstImposter.postToMountebank()
-  .then( () => {
-  console.log('Imposter Posted! Go to http://localhost:3000/hello');
-  });
-});
-
+// post our Imposter to listen! (Mountebank has to be running on localhost:2525!)
+firstImposter.postToMountebank()
+.then( () => {
+console.log('Imposter Posted! Go to http://localhost:3000/hello');
 ```
 
 Now you can navigate to <a href = 'http://localhost:3000/hello'>localhost:3000/hello</a> to see the mocked response!
 
 <h1>API</h1>
 
-<h3>MountebankHelper.startMbServer(port)</h3>
-<h5> port </h5> The port on which the main Mountebank server is to listen on
-This will start up the main Mountebank server and have it start listening for imposter create/update requests. This must be called before making any postToMountebank or updateResponse calls
-
-<h3>MountebankHelper.Imposter(port, protocol)</h3>
+<h3>Imposter(port, protocol)</h3>
 Constructor for the Imposter class which serves as the main entry point for interacting with Mountebank. <br>
 A single instance of an Imposter class represents a single Mountebank imposter listening on a single port. <br>
 <h5> port </h5> The port on which the Imposter is to listen on for incoming traffic
